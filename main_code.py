@@ -1,39 +1,48 @@
+# #Debugs########
+# print("From Cache:", resp.fromcache)
+#
+# print("\n respons:")
+# for d in resp:
+#     print("part of response: ",d ," -->> ", resp[d])
+#
+# print("\nData length:", len(content))
+# print("first part of data", content[:70])
+# ##########
+
+#################################################### Imports ######################################################
+
 import httplib2 as hlib
+import json
+import pyperclip as pyclp
 
-FORMAT = "utf-8"
-str_data = "NULL"
+#################################################### Variables ####################################################
+output = []
 
+#################################################### Tuples ####################################################
+keys_in_order = ("primaryTitle", "runtimeSeconds", "interests", "link", "location")
+
+#################################################### Functions ####################################################
+def extract_and_append_to_output(dict_key = str, from_dict = dict) -> None:
+    key_value = from_dict[dict_key]
+    output.append(key_value)
+
+
+#################################################### HTTP Getter ##################################################
+# This makes the request to a imdb api that allows us to GET data with the imdb ID.
+# imdb api link: "https://imdbapi.dev/"
 h = hlib.Http(".cache")
-(resp, data) = h.request("https://valorant.fandom.com/wiki/Status_Effect", "GET")
+(resp, content) = h.request("https://api.imdbapi.dev/titles/tt0172495", "GET")
 
-print("From Cache:", resp.fromcache)
-
-print("\n respons:")
-for d in resp:
-    print("part of response: ",d ," -->> ", resp[d])
-
-print("\nData length:", len(data))
-print("first part of data", data[:70])
-
-#str_data = data.decode(FORMAT)
-
-val_buffs = str_data.find()
+# Converts the bytes recived into a python dictionary 
+data_dict = json.loads(content)
 
 
 
-#################### This is using urllib instead of httplib2 to achive the same thing without using caches #######################
-
-# from http.client import HTTPConnection
-# HTTPConnection.debuglevel = 1
-
-# from urllib.request import urlopen
 
 
-# url = "https://www.imdb.com/title/tt1631867/?ref_=nv_sr_srsg_0_tt_8_nm_0_in_0_q_edge%2520of%2520t"
 
 
-# resp = urlopen(url).read()
-
-
-# print(resp)
-
+#robably is not gonna be used because it will write directly into the google sheets
+str_output = "\t".join(output)
+print(str_output)
+#pyclp.copy(str_output)
