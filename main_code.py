@@ -9,22 +9,24 @@
 # print("first part of data", content[:70])
 # ##########
 
-#################################################### Imports ######################################################
 
+#################################################### Imports ######################################################
 import httplib2 as hlib
 import json
 import pyperclip as pyclp
+from math import floor as flr
+
 
 #################################################### Variables ####################################################
 output = []
 
-#################################################### Tuples ####################################################
+
+#################################################### Tuples ######################################################
 keys_in_order = ("primaryTitle", "runtimeSeconds", "interests", "link", "location")
 
+
 #################################################### Functions ####################################################
-def extract_and_append_to_output(dict_key = str, from_dict = dict) -> None:
-    key_value = from_dict[dict_key]
-    output.append(key_value)
+
 
 
 #################################################### HTTP Getter ##################################################
@@ -37,10 +39,27 @@ h = hlib.Http(".cache")
 data_dict = json.loads(content)
 
 
+#################################################### Data extraction and formatting ###############################
+#Extracts and appends the title
+title = data_dict[keys_in_order[0]]
+output.append(title)
+
+#Extracts and appends the length in hours and minutes
+length_in_seconds = data_dict[keys_in_order[1]]
+minutes = int(flr(length_in_seconds/60))
+hours = int(flr(minutes/60))
+extra_minutes = minutes - hours*60
+
+lenght_str = str(hours) + "h " + str(extra_minutes) + "m"
+output.append(lenght_str)
+
+# Extracts and appends relvent genres & subgenres
 
 
 
 
+
+#################################################### Data String Export ###########################################
 
 #robably is not gonna be used because it will write directly into the google sheets
 str_output = "\t".join(output)
