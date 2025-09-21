@@ -31,3 +31,6 @@ $RECYCLE.BIN/
 
 # The HTTP getters cache.
 .cache
+
+# The local module import cache.
+__pycache__
