@@ -45,7 +45,7 @@ window_layout = [
 
                 [sg.Text("Choose what we have this movie \"stored\" on :)")],
                 [sg.Combo(["DVD", "Blu-ray", "Server", "Other"], default_value="DVD", readonly=True, enable_events=True, key="-location-"),
-                sg.Input(size=(15,1), visible=False, key="-other_location-")],
+                sg.Input("", size=(15,1), visible=False, key="-other_location-")],
                 
                 [sg.Text("")],
                 [sg.Push(), sg.Button("Comfirm", enable_events=True, key="-confirm-"),  sg.Push()],
@@ -57,11 +57,9 @@ window_layout = [
                         ], title_color=COLOR_LIGHT_GREEN, visible=False, key="-success_frame-")]
                 ]
 
-#, "location":f.extract_location
-
 # Dictionaries
     # This dictionary contains the order of data in the output as keys and the relative extract function as the value.
-extracton_order = {"title":f.extract_title, "runtime":f.extract_runtime, "super_genres":f.extract_super_genres, "imdb_link":f.extract_link}
+extracton_order = {"title":f.extract_title, "runtime":f.extract_runtime, "super_genres":f.extract_super_genres, "location":f.extract_location, "imdb_link":f.extract_link}
     # This dictionary contains all the super_genres as the key and its sub_genre relatives as its values.
                                 # Super Genres      # Sub Genres
 super_and_sub_genre_relation =  {"Action"           : ("Action", "Action Epic", "B-Action", "Car Action", "Disaster", "Martial Arts", "One-Person Army Action", "Superhero", "Sword & Sandal", "War", "War Epic", "Gun Fu", "Kung Fu", "Samurai", "Wuxia"),

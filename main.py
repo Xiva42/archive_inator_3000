@@ -38,11 +38,14 @@ while True:
     elif event == "-confirm-":
         try:
             ######################################## HTTP Getter ##################################################
-            # This makes the request to a imdb api that allows us to GET data with the imdb ID.
+            # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
             given_link = values["-link-"]
             data_dict = f.http_get_request(h, given_link)
-
+            
             ######################################## Data extraction and formatting ###############################
+            # This inserts the user given "location" for the movie into the data_dict.
+            data_dict["storageLocation"] = {"location": values["-location-"], "other_location": values["-other_location-"]}
+
             # This runs all the extraction functions which extracts the wanted data and appends it in the given extraction_order.
             for i in d.extracton_order:
                 d.extracton_order[i](data_dict)
