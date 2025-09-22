@@ -41,15 +41,19 @@ def extract_super_genres(src:dict) -> None:
     genre_str = ", ".join(d.final_super_genres)
     d.output.append(genre_str)
 
+    # Extracts and appends the chosen location of the movie.
+def extract_location(src:dict) -> None:
+    mov_loc = src["storageLocation"]["location"]
+    # if the selected location was other, it takes the other_location value instead.
+    if mov_loc == "Other":
+        mov_loc = src["storageLocation"]["other_location"]
+    d.output.append(mov_loc)
+   
     # Extracts and appends the link for this movies imdb site.
 def extract_link(src:dict) -> None:
     movie_id = src["id"]
     imdb_link = d.IMDB_MOVIE_ROOT_ADDRESS + movie_id
     d.output.append(imdb_link)
-
-    # Extracts and appends the chosen location of the movie.
-#def extract_location(src:dict) -> None:
-#    d.output.append(src)
 
 
 #################################################### Other Functions ##############################################
