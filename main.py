@@ -6,9 +6,11 @@
 import httplib2 as hlib
 import FreeSimpleGUI as sg
 import pyperclip as pyclp
+import webbrowser as webb
 #################################################### Module Imports ###############################################
 from modules import functions as f
 from modules import data_fields as d
+from modules import gui_elements as gui
 
 
 ###################################################################################################################
@@ -17,16 +19,21 @@ from modules import data_fields as d
 # Initiates the http class.
 h = hlib.Http(".cache")
 
-
 #Initates the window with the gui_layout list.
-window = sg.Window("The Archive Inator 3000", d.window_layout, finalize=True)
+window = sg.Window("The Archive Inator 3000", gui.window_layout, keep_on_top=True, finalize=True)
+# Enables the enter key to act as a "confirm" button.
+window.bind("<Return>", "-enter_key-")
 
+# The main application loop which reads events and inputs into the GUI and makes operations with the input.
 while True:
     event, values = window.read()
     print(event, values)
 
     if event == sg.WIN_CLOSED:
         break
+
+    elif event == "-xiva_link-":
+        webb.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ",2)
 
     elif event == "-location-":
         if values["-location-"] == "Other":
@@ -35,7 +42,7 @@ while True:
         elif window["-other_location-"].visible:
             window["-other_location-"].update(visible=False)            
 
-    elif event == "-confirm-":
+    elif event == "-confirm-" or "-enter_key-":
         try:
             ######################################## HTTP Getter ##################################################
             # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
@@ -55,20 +62,19 @@ while True:
             str_output = "\t".join(d.output)
             pyclp.copy(str_output)
 
-            ######################################## Success reset ###############################################
+            ######################################## Success reset ################################################
             # Hides the Error message if it was there.
             window["-error_msg-"].update(visible=False)
             # Removes the link from the input box.
             window["-link-"].update(value="")
             # shows the retrieved Movie's name in the success_frame.
             window["-subject_movie-"].update(value=d.output[0])
-            # Displays the success_frame and _separator.
-            #window["-success_frame-"].update(visible=True)
-            window["-success_column-"].update(visible=True)
+            # Displays the success_frame.
+            window["-success_frame-"].update(visible=True)
         
         # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
         except Exception as e:
-            print(e)
+            print("Error: ", e)
             window["-error_msg-"].update(visible=True)
 
 window.close()

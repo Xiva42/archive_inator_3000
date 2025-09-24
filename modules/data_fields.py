@@ -1,12 +1,9 @@
-#################################################### Standard Imports #############################################
-import FreeSimpleGUI as sg
-
 #################################################### Module Imports ###############################################
 from modules import functions as f
 
 
 ###################################################################################################################
-#################################################### Variables ####################################################
+#################################################### Constants ####################################################
 ###################################################################################################################
 # Different web address roots.
 IMDB_MOVIE_ROOT_ADDRESS = "https://www.imdb.com/title/"
@@ -24,45 +21,21 @@ COLOR_GOLD = "Gold"
 debug = 0
 
 ###################################################################################################################
-#################################################### Tuples, lists & Dictionaries #################################
+#################################################### lists ########################################################
 ###################################################################################################################
-
 # Lists
     # This list will contain the output message and will be joined with \t in the end.
 output = []
     # This list contains all the super_genres that will be added to the output list.
 final_super_genres = []
-    # Defines all the elements in the link_promt (main) window.
-    #Sets the GUI theme
-sg.theme(APPLICATION_THEME)
-window_layout = [
-                [sg.HorizontalSeparator()],
-                [sg.Text("Insert the IMDb link into the box below")],
-                [sg.Input(key="-link-")],
-                [sg.Text("Error: Not a valid link", visible=False, text_color=COLOR_RED, key="-error_msg-")],
 
-                [sg.HorizontalSeparator()],
-                [sg.Text("Choose what we have this movie \"stored\" on :)")],
-                [sg.Combo(["DVD", "Blu-ray", "Server", "Other"], default_value="DVD", readonly=True, enable_events=True, key="-location-"),
-                sg.Input("", size=(15,1), visible=False, key="-other_location-")],
-                [sg.HorizontalSeparator()],
-                
-                [sg.Push(), sg.Button("Comfirm", enable_events=True, key="-confirm-"),  sg.Push()],
-                [sg.HorizontalSeparator()],
-                [sg.Push(),
-                 sg.Frame("Success!", title_color=COLOR_LIGHT_GREEN, element_justification="Center", visible=False, key="-success_frame-", layout=
-                        [[sg.Text("The wanted data on:", text_color=COLOR_LIGHT_GREEN),
-                        sg.Text("", key="-subject_movie-", text_color=COLOR_GOLD)],
-                        [sg.Text("is now in your clipboard", text_color=COLOR_LIGHT_GREEN)],
-                        [sg.Text("You can repeat the process if needed :)")]
-                        ]),
-                 sg.Push()]
-                ]
 
-# Dictionaries
-    # This dictionary contains the order of data in the output as keys and the relative extract function as the value.
+###################################################################################################################
+#################################################### Dictionaries #################################################
+###################################################################################################################
+# This dictionary contains the order of data in the output as keys and the relative extract function as the value.
 extracton_order = {"title":f.extract_title, "runtime":f.extract_runtime, "super_genres":f.extract_super_genres, "location":f.extract_location, "imdb_link":f.extract_link}
-    # This dictionary contains all the super_genres as the key and its sub_genre relatives as its values.
+# This dictionary contains all the super_genres as the key and its sub_genre relatives as its values.
                                 # Super Genres      # Sub Genres
 super_and_sub_genre_relation =  {"Action"           : ("Action", "Action Epic", "B-Action", "Car Action", "Disaster", "Martial Arts", "One-Person Army Action", "Superhero", "Sword & Sandal", "War", "War Epic", "Gun Fu", "Kung Fu", "Samurai", "Wuxia"),
                                 "Adventure"         : ("Adventure", "Desert Adventure", "Dinosaur Adventure", "Adventure Epic", "Globetrotting Adventure", "Jungle Adventure", "Mountain Adventure", "Quest", "Road Trip", "Sea Adventure", "Swashbuckler", "Teen Adventure", "Urban Adventure"),
@@ -96,7 +69,7 @@ super_and_sub_genre_relation =  {"Action"           : ("Action", "Action Epic", 
                                 "War"               : ("War", "War Epic"),
                                 "Western"           : ("Western", "Classical Western", "Contemporary Western", "Western Epic", "Spaghetti Western")
                                 }
-    # This dictionary keeps track of which super_genres already has been added to the final_genres list, to avoid duplicates.
+# This dictionary keeps track of which super_genres already has been added to the final_genres list, to avoid duplicates.
 already_added_super_genre =     {
                                 "Action"            : False,
                                 "Adventure"         : False,
