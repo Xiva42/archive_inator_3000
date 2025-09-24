@@ -36,25 +36,27 @@ final_super_genres = []
     #Sets the GUI theme
 sg.theme(APPLICATION_THEME)
 window_layout = [
-                [sg.Titlebar("The Archive Inator 3000")],
+                [sg.HorizontalSeparator()],
                 [sg.Text("Insert the IMDb link into the box below")],
                 [sg.Input(key="-link-")],
                 [sg.Text("Error: Not a valid link", visible=False, text_color=COLOR_RED, key="-error_msg-")],
 
-                [sg.Text("")],
-
+                [sg.HorizontalSeparator()],
                 [sg.Text("Choose what we have this movie \"stored\" on :)")],
                 [sg.Combo(["DVD", "Blu-ray", "Server", "Other"], default_value="DVD", readonly=True, enable_events=True, key="-location-"),
                 sg.Input("", size=(15,1), visible=False, key="-other_location-")],
+                [sg.HorizontalSeparator()],
                 
-                [sg.Text("")],
                 [sg.Push(), sg.Button("Comfirm", enable_events=True, key="-confirm-"),  sg.Push()],
-                [sg.Frame("Success!",
+                [sg.HorizontalSeparator()],
+                [sg.Push(),
+                 sg.Frame("Success!", title_color=COLOR_LIGHT_GREEN, element_justification="Center", visible=False, key="-success_frame-", layout=
                         [[sg.Text("The wanted data on:", text_color=COLOR_LIGHT_GREEN),
                         sg.Text("", key="-subject_movie-", text_color=COLOR_GOLD)],
                         [sg.Text("is now in your clipboard", text_color=COLOR_LIGHT_GREEN)],
                         [sg.Text("You can repeat the process if needed :)")]
-                        ], title_color=COLOR_LIGHT_GREEN, visible=False, key="-success_frame-")]
+                        ]),
+                 sg.Push()]
                 ]
 
 # Dictionaries

@@ -19,7 +19,7 @@ h = hlib.Http(".cache")
 
 
 #Initates the window with the gui_layout list.
-window = sg.Window("The Archive Inator 3000", d.window_layout)
+window = sg.Window("The Archive Inator 3000", d.window_layout, finalize=True)
 
 while True:
     event, values = window.read()
@@ -62,8 +62,9 @@ while True:
             window["-link-"].update(value="")
             # shows the retrieved Movie's name in the success_frame.
             window["-subject_movie-"].update(value=d.output[0])
-            # Displays the success_frame.
-            window["-success_frame-"].update(visible=True)
+            # Displays the success_frame and _separator.
+            #window["-success_frame-"].update(visible=True)
+            window["-success_column-"].update(visible=True)
         
         # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
         except Exception as e:
