@@ -2,8 +2,8 @@
 import FreeSimpleGUI as sg
 
 #################################################### Module Imports #############################################################
-from modules import data_fields as d
-from modules.enums import *
+from modules.data_fields import media_type
+from modules.enums import GuiColor, GuiKey, Location, MediaType
 
 
 #################################################################################################################################
@@ -39,7 +39,7 @@ window_layout = [
                  sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
                 
                 [sg.HorizontalSeparator()],
-                [sg.Text(f"Select the {d.media_type} \"storage location\":", key=GuiKey.LOCATION_TXT)],
+                [sg.Text(f"Select the {media_type} \"storage location\":", key=GuiKey.LOCATION_TXT)],
                 [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION),
                 sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
                 

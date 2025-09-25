@@ -2,7 +2,6 @@
 import httplib2 as hlib
 import json
 from math import floor as flr
-# (Module import is at the bottom of the file)
 
 
 #################################################################################################################################
@@ -22,8 +21,6 @@ def http_get_request(http:hlib.Http, link:str) -> dict:
     # Converts the bytes recived into a python dictionary.
     data = json.loads(content)
     return data
-
-    
 
 # This function finds the super_genre that corrosponds with the given interest and returns it.
 def find_reletive_super_genre(interest:str) -> str:
@@ -106,4 +103,4 @@ def extract_link(src:dict) -> None:
 
 #################################################### Module Imports ###############################################
 from modules import data_fields as d
-from modules.enums import *
+from modules.enums import RootAdress, DataKey, Location, MediaType
