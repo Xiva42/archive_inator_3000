@@ -34,3 +34,6 @@ $RECYCLE.BIN/
 
 # The local module import cache.
 __pycache__
+
+#The GoogleAPI credentials
+credentials.json
