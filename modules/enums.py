@@ -2,7 +2,7 @@
 from enum import Enum
 from functools import partial
 #################################################### Module Imports #############################################################
-from modules import functions as f
+from modules.functions import extract_link, extract_location, extract_media, extract_runtime, extract_super_genres, extract_title
 
 
 #################################################################################################################################
@@ -59,15 +59,6 @@ class GuiKey(Enum):
     # Extra Keys.
     ENTER_KEY = 11
 
-# This contains the order of data in the output as keys and the relative extract function as the value.
-class Extraction(Enum):
-    TITLE        = partial(f.extract_title)
-    RUNTIME      = partial(f.extract_runtime)
-    SUPER_GENRES = partial(f.extract_super_genres)
-    LOCATION     = partial(f.extract_location)
-    MEDIA        = partial(f.extract_media)
-    IMDB_LINK    = partial(f.extract_link)
-
 # This contains the dictionary keys for the relevant data sections from the requested data_dict. (including self inserted keys.)
 class DataKey(Enum):
     # Name specific keys from the IMDb request.
@@ -87,4 +78,11 @@ class DataKey(Enum):
     MEDIA_OTHER = 5
 
 
-
+# This contains the order of data in the output as keys and the relative extract function as the value.
+class Extraction(Enum):
+    TITLE        = partial(extract_title)
+    RUNTIME      = partial(extract_runtime)
+    SUPER_GENRES = partial(extract_super_genres)
+    LOCATION     = partial(extract_location)
+    MEDIA        = partial(extract_media)
+    IMDB_LINK    = partial(extract_link)
