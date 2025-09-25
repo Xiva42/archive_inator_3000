@@ -1,29 +1,27 @@
-#################################################### Standard Imports #############################################
+#################################################### Standard Imports ###########################################################
 import FreeSimpleGUI as sg
-#################################################### Module Imports ###############################################
+
+#################################################### Module Imports #############################################################
 from modules import data_fields as d
+from modules.enums import *
 
 
-###################################################################################################################
-#################################################### GUI Elements #################################################
-###################################################################################################################
+#################################################################################################################################
+#################################################### GUI Elements ###############################################################
+#################################################################################################################################
 #Sets the GUI theme
-sg.theme(d.APPLICATION_THEME)
+sg.theme(GuiColor.THEME.value)
     # This defines what the intro column contains and is called in the window_layout.
 intro_column_layout = [
                 [sg.Text("WELCOME", font=("Impact", "20"))],
-                [sg.Text("to", font=("Helvetica", "10")), sg.Text("Xiva's", font=("Helvetica", "10", "underline"), enable_events=True, tooltip="Link to Xiva's Website :)", key="-xiva_link-")],
-                [sg.Text("ARCHIVE INATOR 3000", font=("Impact", "40"), background_color="DarkRed", border_width=10)]
+                [sg.Text("to", font=("Helvetica", "10")), sg.Text("Xiva's", font=("Helvetica", "10", "underline"), enable_events=True, tooltip="Link to Xiva's Website :)", key=GuiKey.XIVA_LINK)],
+                [sg.Text("ARCHIVE INATOR 3000", font=("Impact", "40"), background_color=GuiColor.DARK_RED.value, border_width=10)]
                       ]
-    # This defines what the error column contains and is called in the window_layout.
-error_column_layout = [
-                
-                      ]    
 
     # This defines what the success frame contains and is called in the window_layout.
 success_frame_layout = [
-                [sg.Text("The wanted data on:", text_color=d.COLOR_LIGHT_GREEN), sg.Text("", key="-subject_movie-", text_color=d.COLOR_GOLD)],
-                [sg.Text("is now in your clipboard", text_color=d.COLOR_LIGHT_GREEN)],
+                [sg.Text("The wanted data on:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("", key=GuiKey.SUBJECT_MEDIA, text_color=GuiColor.GOLD.value)],
+                [sg.Text("is now in your clipboard", text_color=GuiColor.LIGHT_GREEN.value)],
                 [sg.Text("You can repeat the process if needed :)")]
                        ]
 
@@ -31,17 +29,23 @@ success_frame_layout = [
 window_layout = [
                 [sg.Push(), sg.Column(intro_column_layout, element_justification="Center"), sg.Push()],
                 [sg.HorizontalSeparator()],
-                [sg.Text("Insert the IMDb link into the box below")],
-                [sg.Input(key="-link-", expand_x=True)],
-                [sg.Text("Error: Not a valid link. It should look something like: 'https://www.imdb.com/title/tt...'", text_color=d.COLOR_RED, visible=False, key="-error_msg-")],
+                [sg.Text("Insert the IMDb link into the box below:")],
+                [sg.Input(key=GuiKey.IMDB_LINK, expand_x=True)],
+                [sg.Text("Error: Not a valid link. It should look something like: \"https://www.imdb.com/title/tt...\"", text_color=GuiColor.RED.value, visible=False, key=GuiKey.ERROR_MSG)],
 
                 [sg.HorizontalSeparator()],
-                [sg.Text("Choose what we have this movie \"stored\" on :)")],
-                [sg.Combo(["DVD", "Blu-ray", "Server", "Other"], default_value="DVD", readonly=True, enable_events=True, key="-location-"),
-                sg.Input("", size=(15,1), visible=False, key="-other_location-", expand_x=True)],
-                [sg.HorizontalSeparator()],
+                [sg.Text("Select the media:")],
+                [sg.Combo([MediaType.MOVIE.value, MediaType.MOVIE_SERIES.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA),
+                 sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
                 
-                [sg.Push(), sg.Button("Comfirm", enable_events=True, key="-confirm-"), sg.Push()],
                 [sg.HorizontalSeparator()],
-                [sg.Push(), sg.pin(sg.Frame("Success!", success_frame_layout, title_color=d.COLOR_LIGHT_GREEN, element_justification="Center", visible=False, key="-success_frame-")), sg.Push()]
+                [sg.Text(f"Select the {d.media_type} \"storage location\":", key=GuiKey.LOCATION_TXT)],
+                [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION),
+                sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
+                
+                [sg.HorizontalSeparator()],
+                [sg.Push(), sg.Button("Comfirm", enable_events=True, key=GuiKey.CONFIRM), sg.Push()],
+                [sg.HorizontalSeparator()],
+
+                [sg.Push(), sg.pin(sg.Frame("Success!", success_frame_layout, title_color=GuiColor.LIGHT_GREEN.value, element_justification="Center", visible=False, key=GuiKey.SUCCESS_FRAME)), sg.Push()]
                 ]
