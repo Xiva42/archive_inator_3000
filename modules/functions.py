@@ -1,20 +1,21 @@
-#################################################### Standard Imports #############################################
+#################################################### Standard Imports ###########################################################
 import httplib2 as hlib
 import json
 from math import floor as flr
+# (Module import is at the bottom of the file)
 
 
-###################################################################################################################
-#################################################### Functions ####################################################
-###################################################################################################################
+#################################################################################################################################
+#################################################### Functions ##################################################################
+#################################################################################################################################
 
-#################################################### Other Functions ##############################################
+#################################################### Other Functions ############################################################
 # This modifies the link to go through the imdb api, makes the request to the given link and return it as a python dictionary.
 def http_get_request(http:hlib.Http, link:str) -> dict:
     # Finds the imdb id in the given link.
-    id_start = len(d.IMDB_MOVIE_ROOT_ADDRESS)
+    id_start = len(RootAdress.IMDB_MOVIES.value)
     id = link[id_start:id_start+9]
-    link = d.IMDB_API_TITLE_ROOT_ADRESS + id
+    link = RootAdress.IMDB_API_TITLE.value + id
 
     # This makes the http request and gets the data as json.
     (resp, content) = http.request(link, "GET")
@@ -47,15 +48,15 @@ def find_reletive_super_genre(interest:str) -> str:
                 if interest == relative_sub_genres:
                         return super_genre
 
-#################################################### Extraction Functions #########################################
+#################################################### Extraction Functions #######################################################
     #This function extracts and appends the title to output.
 def extract_title(src:dict) -> None:
-    title = src["primaryTitle"]
+    title = src[DataKey.TITLE.value]
     d.output.append(title)
 
     #This function extracts and appends the length in hours and minutes to output.
 def extract_runtime(src:dict) -> None:
-    length_in_seconds = src["runtimeSeconds"]
+    length_in_seconds = src[DataKey.RUNTIME.value]
     minutes = int(flr(length_in_seconds/60))
     hours = int(flr(minutes/60))
     extra_minutes = minutes - hours*60
@@ -66,7 +67,7 @@ def extract_runtime(src:dict) -> None:
 
     # Extracts and appends relevant super_genres to output.
 def extract_super_genres(src:dict) -> None:
-    for interest_dict in src["interests"]:
+    for interest_dict in src[DataKey.INTERESTS.value]:
         interest_name = interest_dict["name"]
 
         # This functions finds and returns the relative super_genre to the current interest.
@@ -83,17 +84,26 @@ def extract_super_genres(src:dict) -> None:
 
     # Extracts and appends the chosen location of the movie.
 def extract_location(src:dict) -> None:
-    mov_loc = src["storageLocation"]["location"]
+    loc = src[DataKey.LOCATION][DataKey.LOCATION_COMMON]
     # if the selected location was other, it takes the other_location value instead.
-    if mov_loc == "Other":
-        mov_loc = src["storageLocation"]["other_location"]
-    d.output.append(mov_loc)
-   
+    if loc == Location.OTHER.value:
+        loc = src[DataKey.LOCATION][DataKey.LOCATION_OTHER]
+    d.output.append(loc)
+
+    # Extracts and appends the media it is in.
+def extract_media(src:dict) -> None:
+    media = src[DataKey.MEDIA][DataKey.MEDIA_COMMON]
+    # If the selected media is other, it takes the other_type value instead.
+    if media == MediaType.OTHER.value:
+        media = src[DataKey.MEDIA][DataKey.MEDIA_OTHER]
+    d.output.append(media)
+
     # Extracts and appends the link for this movies imdb site.
 def extract_link(src:dict) -> None:
     movie_id = src["id"]
-    imdb_link = d.IMDB_MOVIE_ROOT_ADDRESS + movie_id
+    imdb_link = RootAdress.IMDB_MOVIES.value + movie_id
     d.output.append(imdb_link)
 
 #################################################### Module Imports ###############################################
 from modules import data_fields as d
+from modules.enums import *
