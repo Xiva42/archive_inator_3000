@@ -20,8 +20,9 @@ intro_column_layout = [
 
     # This defines what the success frame contains and is called in the window_layout.
 success_frame_layout = [
-                [sg.Text("The wanted data on:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("", key=GuiKey.SUBJECT_MEDIA, text_color=GuiColor.GOLD.value)],
-                [sg.Text("is now in your clipboard", text_color=GuiColor.LIGHT_GREEN.value)],
+                [sg.Text("The wanted data on:", text_color=GuiColor.LIGHT_GREEN.value, ), sg.Text("", text_color=GuiColor.GOLD.value, key=GuiKey.SUBJECT_MEDIA,)],
+                [sg.Text("Is now in:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("The Movie Archive", font=("Helvetica", "10", "underline"), enable_events=True, tooltip="Link to \"The Movie Archive\" Google Sheets", text_color=GuiColor.LIGHT_BLUE.value, key=GuiKey.ARCHIVE_LINK)],
+                [sg.Text("With a total of:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("", text_color=GuiColor.GOLD.value, key=GuiKey.ARCHIVE_SIZE,), sg.Text("archived media", text_color=GuiColor.LIGHT_GREEN.value)],
                 [sg.Text("You can repeat the process if needed :)")]
                        ]
 
