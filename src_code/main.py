@@ -5,13 +5,19 @@
 #################################################### Standard Imports ###########################################################
 import httplib2 as hlib
 import FreeSimpleGUI as sg
-import pyperclip as pyclp
 import webbrowser as webb
+
 #################################################### Module Imports #############################################################
-from modules import functions as f
+# Functions:
+from modules import funcs_extract as f_ext
+from modules import funcs_http as f_htt
+from modules import funcs_sheets_comm as f_shc
+# Enums for constants:
+from modules.enums import GuiKey, Location, MediaType, DataKey, LinkAdress
+# Variables, lists, and dictionaries:
 from modules import data_fields as d
+# window layout and theme configurations for the GUI:
 from modules import gui_elements as gui
-from modules.enums import *
 
 
 #################################################################################################################################
@@ -34,8 +40,10 @@ while True:
 
 
     elif event == GuiKey.XIVA_LINK:
-        webb.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ",2)
+        webb.open(LinkAdress.XIVA_WEBSITE_LINK.value, 2)
 
+    elif event == GuiKey.ARCHIVE_LINK:
+        webb.open(LinkAdress.ARCHIVE_SPREADSHEET_LINK.value, 2)
 
     elif event == GuiKey.MEDIA:
         d.media_type = values[GuiKey.MEDIA]
@@ -57,46 +65,46 @@ while True:
 
 
     elif event == GuiKey.CONFIRM or event == GuiKey.ENTER_KEY:
-        # try:
+        try:
             ######################################## HTTP Getter ################################################################
             # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
             given_link = values[GuiKey.IMDB_LINK]
-            data_dict = f.http_get_request(h, given_link)
+            data_dict = f_htt.http_get_request(h, given_link)
             
             ######################################## Data extraction and formatting #############################################
-            
-            # This runs all the extraction functions which extracts the wanted data and appends it in the given extraction_order.
-            for func in Extraction:
-
-                if func == Extraction.LOCATION:
-                    # This inserts the user given "location" for the media into the data_dict.
-                    data_dict[DataKey.LOCATION] = {DataKey.LOCATION_COMMON: values[GuiKey.LOCATION], DataKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]}
-                elif func == Extraction.MEDIA:
-                    # This inserts the user given "media" into the data_dict.
-                    data_dict[DataKey.MEDIA] = {DataKey.MEDIA_COMMON: values[GuiKey.MEDIA], DataKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER]}
-
+            # This inserts the user given "location" for the media into the data_dict.
+            data_dict[DataKey.LOCATION] = {DataKey.LOCATION_COMMON: values[GuiKey.LOCATION], DataKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]}
+            # This inserts the user given "media" into the data_dict.
+            data_dict[DataKey.MEDIA] = {DataKey.MEDIA_COMMON: values[GuiKey.MEDIA], DataKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER]}
+    
+            # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
+            for func in f_ext.Extraction:
                 func.value(data_dict)
 
-            ######################################## Data String Export #########################################################
-            # Joins the output list with tab as separator so it can be pasted easily into google sheet.
-            str_output = "\t".join(d.output)
-            pyclp.copy(str_output)
+            ######################################## Data Export To Sheets Document #############################################
+            # This connects to the google spreadsheet which is the archive inators storage.
+            archive_spreadsheet = f_shc.connect_to_sheet()
+            # This writes the output data to the connected spreadsheet, and returns the new archive size.
+            archive_size = f_shc.write_to_sheet(archive_spreadsheet, [d.output])
+            
 
             ######################################## Success reset ##############################################################
             # Hides the Error message if it was there.
             window[GuiKey.ERROR_MSG].update(visible=False)
             # Removes the link from the input box.
             window[GuiKey.IMDB_LINK].update(value="")
-            # shows the retrieved Movie's name in the success_frame.
+            # Shows the retrieved Movie's name in the success_frame.
             window[GuiKey.SUBJECT_MEDIA].update(value=d.output[0])
+            # Shows the current amount of archived media in the archive spreadsheet.
+            window[GuiKey.ARCHIVE_SIZE].update(value=str(archive_size))
             # Displays the success_frame.
             window[GuiKey.SUCCESS_FRAME].update(visible=True)
             # Empties the output list.
             d.output = []
         
         # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
-        # except Exception as e:
-        #     print("Error: ", e)
-        #     window[GuiKey.ERROR_MSG].update(visible=True)
+        except Exception as e:
+            print("Error: ", e)
+            window[GuiKey.ERROR_MSG].update(visible=True)
 
 window.close()
