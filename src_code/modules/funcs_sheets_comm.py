@@ -34,7 +34,7 @@ def write_to_sheet(sheet_obj:gspread.Spreadsheet, data:list[list[any]], workshee
     archive_sheet = sheet_obj.worksheet(worksheet_name)
 
         # Reads the amount of rows and makes the correct index
-    row_count = archive_sheet.row_count
+    row_count = len(archive_sheet.col_values(1))
     print(row_count)
     data_insertion_row = "A" + str(row_count+1)
 
