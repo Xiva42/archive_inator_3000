@@ -13,8 +13,13 @@ def http_get_request(http:hlib.Http, link:str) -> dict | str:
     """Returns a string if an error occurred, otherwise returns a dictionary"""
 
     # extracts the imdb id in the given link.
-    id_start = len(LinkAdress.ROOT_IMDB_MOVIES.value)
-    id = link[id_start:id_start+9]
+        # id_start finds where "/tt" occurrs in the link, which is only at the start of the id.
+        # +1 to avoid the first "/" when we search for the id_end and extract the final id.
+    id_start = link.find("/tt")+1
+        # id_end finds the first "/" after id_start index.
+    id_end = link.find("/",id_start)
+
+    id = link[id_start:id_end]
     link = LinkAdress.ROOT_IMDB_API_TITLE.value + id
 
     # This makes the http request and gets the data as json
