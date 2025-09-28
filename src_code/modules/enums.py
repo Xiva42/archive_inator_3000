@@ -45,24 +45,28 @@ class GuiKey(Enum):
     XIVA_LINK = 0
 
     IMDB_LINK = 1
-    ERROR_MSG = 2
+    HTTP_ERROR_MSG = 2
+    HTTP_ERROR_TYPE_MSG = 3
 
-    MEDIA = 3
-    MEDIA_OTHER = 4
+    MEDIA = 4
+    MEDIA_OTHER = 5
 
-    LOCATION_TXT = 5
-    LOCATION = 6
-    LOCATION_OTHER = 7
+    LOCATION_TXT = 6
+    LOCATION = 7
+    LOCATION_OTHER = 8
 
-    CONFIRM = 8
+    CONFIRM = 9
 
-    SUCCESS_FRAME = 9
-    SUBJECT_MEDIA = 10
-    ARCHIVE_SIZE = 11
-    ARCHIVE_LINK = 12
+    GENERAL_ERROR_MSG = 10
+
+    SUCCESS_FRAME = 11
+    SUBJECT_MEDIA = 12
+    ARCHIVE_SIZE = 13
+    ARCHIVE_LINK = 14
 
     # Extra Keys.
-    ENTER_KEY = 13
+    ENTER_KEY = 15
+
 
 # This contains the dictionary keys for the relevant data sections from the requested data_dict. (including self inserted keys.)
 class DataKey(Enum):

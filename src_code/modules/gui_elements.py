@@ -32,7 +32,8 @@ window_layout = [
                 [sg.HorizontalSeparator()],
                 [sg.Text("Insert the IMDb link into the box below:")],
                 [sg.Input(key=GuiKey.IMDB_LINK, expand_x=True)],
-                [sg.Text("Error: Not a valid link. It should look something like: \"https://www.imdb.com/title/tt...\"", text_color=GuiColor.RED.value, visible=False, key=GuiKey.ERROR_MSG)],
+                [sg.pin(sg.Text("Error: Not a valid link. It should look something like: \"https://www.imdb.com/title/tt...\"", text_color=GuiColor.RED.value, visible=False, key=GuiKey.HTTP_ERROR_MSG))],
+                [sg.pin(sg.Text("", text_color=GuiColor.RED.value, visible=False, key=GuiKey.HTTP_ERROR_TYPE_MSG))],
 
                 [sg.HorizontalSeparator()],
                 [sg.Text("Select the media:")],
@@ -48,5 +49,6 @@ window_layout = [
                 [sg.Push(), sg.Button("Comfirm", enable_events=True, key=GuiKey.CONFIRM), sg.Push()],
                 [sg.HorizontalSeparator()],
 
+                [sg.pin(sg.Text("", text_color=GuiColor.RED.value, visible=False, key=GuiKey.GENERAL_ERROR_MSG))],
                 [sg.Push(), sg.pin(sg.Frame("Success!", success_frame_layout, title_color=GuiColor.LIGHT_GREEN.value, element_justification="Center", visible=False, key=GuiKey.SUCCESS_FRAME)), sg.Push()]
                 ]
