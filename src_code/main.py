@@ -26,6 +26,9 @@ from modules import gui_elements as gui
 # Initiates the http class.
 h = hlib.Http(".cache")
 
+# This connects to the google spreadsheet which is the archive inators storage.
+archive_spreadsheet = f_shc.connect_to_sheet()
+
 #Initates the window with the gui_layout list.
 window = sg.Window("The Archive Inator 3000", gui.window_layout, keep_on_top=True, finalize=True)
 # Enables the enter key to act as a "confirm" button.
@@ -105,9 +108,6 @@ while True:
                     func.value(data_dict)
 
                 ######################################## >3< Data Export To Sheets Document #####################################
-                # This connects to the google spreadsheet which is the archive inators storage.
-                archive_spreadsheet = f_shc.connect_to_sheet()
-
                 # This writes the output data to the connected spreadsheet, and returns the new archive size.
                 archive_size = f_shc.write_to_sheet(archive_spreadsheet, [d.output])
                 
