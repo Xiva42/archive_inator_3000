@@ -5,7 +5,7 @@ from functools import partial
 
 #################################################### Module Imports #############################################################
 from modules import data_fields as d
-from modules.enums import LinkAdress, DataKey, Location, MediaType
+from modules.enums import LinkAdress, DataKey, Location, MediaType, GuiKey
 
 
 #################################################################################################################################
@@ -15,6 +15,7 @@ from modules.enums import LinkAdress, DataKey, Location, MediaType
 def extract_title(src:dict) -> None:
     title = src[DataKey.TITLE.value]
     d.output.append(title)
+
 
     #This function extracts and appends the length in hours and minutes to output.
 def extract_runtime(src:dict) -> None:
@@ -27,8 +28,11 @@ def extract_runtime(src:dict) -> None:
     lenght_str = str(hours) + "h " + str(extra_minutes) + "m"
     d.output.append(lenght_str)
 
+
     # Extracts and appends relevant super_genres to output.
 def extract_super_genres(src:dict) -> None:
+    # This list contains all the super_genres that will be added to the output list.
+    final_super_genres = []
     for interest_dict in src[DataKey.INTERESTS.value]:
         interest_name = interest_dict["name"]
 
@@ -38,27 +42,40 @@ def extract_super_genres(src:dict) -> None:
         relative_super_genre = find_reletive_super_genre(interest_name)
         if relative_super_genre != None:
             d.already_added_super_genre[relative_super_genre] = True #1
-            d.final_super_genres.append(relative_super_genre) #2
+            final_super_genres.append(relative_super_genre) #2
 
     # This formats and appends the list of super_genres to the output list.
-    genre_str = ", ".join(d.final_super_genres)
+    genre_str = ", ".join(final_super_genres)
     d.output.append(genre_str)
+
 
     # Extracts and appends the chosen location of the movie.
         #1 if the selected location was other, it takes the other_location value instead.
 def extract_location(src:dict) -> None:
-    loc = src[DataKey.LOCATION][DataKey.LOCATION_COMMON]
+    loc = src[DataKey.LOCATION][GuiKey.LOCATION_COMMON]
     if loc == Location.OTHER.value: #1
-        loc = src[DataKey.LOCATION][DataKey.LOCATION_OTHER]
+        loc = src[DataKey.LOCATION][GuiKey.LOCATION_OTHER]
     d.output.append(loc)
 
+
     # Extracts and appends the media it is in.
-        #1 If the selected media is other, it takes the other_type value instead.
 def extract_media(src:dict) -> None:
-    media = src[DataKey.MEDIA][DataKey.MEDIA_COMMON]
-    if media == MediaType.OTHER.value: #1
-        media = src[DataKey.MEDIA][DataKey.MEDIA_OTHER]
-    d.output.append(media)
+    final_media_list = []
+    media_dict:dict[GuiKey, bool] = src[DataKey.MEDIA]
+    
+    # this iterates through the medias in the media_dict and checks if it's value is True (which means the corresponding checkbox was checked).
+    for media in media_dict:
+        if media_dict[media]:
+            final_media_list.append(media.value)
+
+    # this checks if the last item in teh final_media_list is the GuiKey.MEDIA_OTHER (it will always be last if it there) and replaces it with the MEDIA_OTHER_INPUTbox text.
+    if final_media_list[-1] == GuiKey.MEDIA_OTHER.value:
+        final_media_list[-1] = media_dict[GuiKey.MEDIA_OTHER_INPUT]
+            
+    # This formats and appends the list of super_genres to the output list.
+    media_str = ", ".join(final_media_list)
+    d.output.append(media_str)
+
 
     # Extracts and appends the link for this movies imdb site.
 def extract_link(src:dict) -> None:
@@ -68,7 +85,7 @@ def extract_link(src:dict) -> None:
 
 #################################################### Sub Functions ##############################################################
 # This function finds the super_genre that corrosponds with the given interest and returns it.
-def find_reletive_super_genre(interest:str) -> str:
+def find_reletive_super_genre(interest:str) -> str | None:
     for super_genre in d.super_and_sub_genre_relation:
         # This checks if the super_genre already have been added to the final_super_genre list so it doesn't add duplicate genres.
         if d.already_added_super_genre[super_genre]:
@@ -89,6 +106,9 @@ def find_reletive_super_genre(interest:str) -> str:
             elif type(relative_sub_genres) == str:
                 if interest == relative_sub_genres: #1
                         return super_genre
+
+    # If there this interest did not fit into a new super_genre it returns None.
+    return None
                 
 #################################################### Function Related Enum ######################################################
 # This contains the order of data in the output as keys and the relative extract function as the value.

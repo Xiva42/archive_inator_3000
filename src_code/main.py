@@ -49,21 +49,24 @@ while True:
     elif event == GuiKey.ARCHIVE_LINK:
         webb.open(LinkAdress.ARCHIVE_SPREADSHEET_LINK.value, 2)
 
-    # If a different media is selected in the media dropdown menu, hide/unhide the "other" text input box.
-        #1 If the selected media is "other", unhide the text inputbox.
-        #2 If the the selected media is anything else than "other" and the "other" text input is visible, hide it.
-    elif event == GuiKey.MEDIA:
-        if values[GuiKey.MEDIA] == MediaType.OTHER.value: #1
-            window[GuiKey.MEDIA_OTHER].update(visible=True)
+    # This section makes sure that the SERIES and MOVIE box cant be checked simultaneously with eachother.
+    elif event == GuiKey.MEDIA_INDEP_MOVIE:
+        gui.checkbox_availability(window, values, GuiKey.MEDIA_INDEP_MOVIE, GuiKey.MEDIA_SERIES)
+    elif event == GuiKey.MEDIA_SERIES:
+        gui.checkbox_availability(window, values, GuiKey.MEDIA_SERIES, GuiKey.MEDIA_INDEP_MOVIE)
 
-        elif window[GuiKey.MEDIA_OTHER].visible: #2
-            window[GuiKey.MEDIA_OTHER].update(visible=False)
+    # If the MEDIA_OTHER checkbox is changed, and it's value is True (checked), unhide the text inputbox. else just hide the text inputbox.
+    elif event == GuiKey.MEDIA_OTHER:
+        if values[GuiKey.MEDIA_OTHER]:
+            window[GuiKey.MEDIA_OTHER_INPUT].update(visible=True)
+        else:
+            window[GuiKey.MEDIA_OTHER_INPUT].update(visible=False)
 
     # If a different location is selected in the location dropdown menu, hide/unhide the "other" text input box.
         #1 If the selected location is "other", unhide the text inputbox.
         #2 If the the selected location is anything else than "other" and the "other" text input is visible, hide it.   
-    elif event == GuiKey.LOCATION:
-        if values[GuiKey.LOCATION] == Location.OTHER.value: #1
+    elif event == GuiKey.LOCATION_COMMON:
+        if values[GuiKey.LOCATION_COMMON] == Location.OTHER.value: #1
             window[GuiKey.LOCATION_OTHER].update(visible=True)
 
         elif window[GuiKey.LOCATION_OTHER].visible: #2
@@ -75,7 +78,7 @@ while True:
         #3 Connect to the google spreadsheet and write it to the first empty row.
         #4 Reset the application so it is ready for the next promt.
     elif event == GuiKey.CONFIRM or event == GuiKey.ENTER_KEY:
-        try:
+        # try:
             for super_genre in range(1):
                 ######################################## >1< HTTP Getter ########################################################
                 # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
@@ -96,9 +99,16 @@ while True:
 
                 ######################################## >2< Data extraction and formatting #####################################
                 # This inserts the user given "media" into the data_dict.
-                data_dict[DataKey.MEDIA] = {DataKey.MEDIA_COMMON: values[GuiKey.MEDIA], DataKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER]}
+                data_dict[DataKey.MEDIA] = {GuiKey.MEDIA_INDEP_MOVIE: values[GuiKey.MEDIA_INDEP_MOVIE],
+                                            GuiKey.MEDIA_MOVIE_SERIES: values[GuiKey.MEDIA_MOVIE_SERIES],
+                                            GuiKey.MEDIA_SERIES: values[GuiKey.MEDIA_SERIES],
+                                            GuiKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER],
+                                            GuiKey.MEDIA_OTHER_INPUT: values[GuiKey.MEDIA_OTHER_INPUT]
+                                           }
                 # This inserts the user given "location" for the media into the data_dict.
-                data_dict[DataKey.LOCATION] = {DataKey.LOCATION_COMMON: values[GuiKey.LOCATION], DataKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]}
+                data_dict[DataKey.LOCATION] = {GuiKey.LOCATION_COMMON: values[GuiKey.LOCATION_COMMON],
+                                               GuiKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]
+                                              }
         
                 # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
                 for func in f_ext.Extraction:
@@ -124,16 +134,15 @@ while True:
                 window[GuiKey.SUCCESS_FRAME].update(visible=True)
                 # Empties the output and final genres lists.
                 d.output = []
-                d.final_super_genres = []
                 # Resets the already added super genres dictionary.
                 for super_genre in d.already_added_super_genre:
                     d.already_added_super_genre[super_genre] = False
         
-        # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
-        except Exception as e:
-            error = f"An error occurred: {e}"
-            print(error)
-            window[GuiKey.GENERAL_ERROR_MSG].update(visible=True)
-            window[GuiKey.GENERAL_ERROR_MSG].update(value=error)
+        # # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
+        # except Exception as e:
+        #     error = f"An error occurred: {e}"
+        #     print(error)
+        #     window[GuiKey.GENERAL_ERROR_MSG].update(visible=True)
+        #     window[GuiKey.GENERAL_ERROR_MSG].update(value=error)
 
 window.close()

@@ -4,6 +4,25 @@ import FreeSimpleGUI as sg
 #################################################### Module Imports #############################################################
 from modules.enums import GuiColor, GuiKey, Location, MediaType
 
+#################################################################################################################################
+#################################################### GUI Functions ##############################################################
+#################################################################################################################################
+# This disables and clears a target checkbox if the active checkbox is checked, else it enables the target checkbox.
+    #1 If there is given two active_checkboxes in a tuple it checks if the first is checked and passes that one as the active_checkbox.
+    #2 Else it just passes the second because it will be checked in the next if statement.
+def checkbox_availability(window: sg.Window, values:dict[GuiKey,any], active_checkbox_ids: GuiKey, target_checkbox_id: GuiKey) -> None:
+    if type(active_checkbox_ids) == tuple: #1
+        if values[active_checkbox_ids[0]]:
+            active_checkbox_ids = active_checkbox_ids[0] 
+        else: #2
+            active_checkbox_ids = active_checkbox_ids[1]
+
+    if values[active_checkbox_ids]:
+        window[target_checkbox_id].update(disabled=True)
+        window[target_checkbox_id].update(value=False)
+    else:
+        window[target_checkbox_id].update(disabled=False)
+
 
 #################################################################################################################################
 #################################################### GUI Elements ###############################################################
@@ -36,13 +55,15 @@ window_layout = [
 
                 [sg.HorizontalSeparator()],
                 [sg.Text("Select the media:")],
-                [sg.Combo([MediaType.MOVIE.value, MediaType.MOVIE_SERIES.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA),
-                 sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
+                [sg.Checkbox(MediaType.INDEP_MOVIE.value, default=True, enable_events=True, key=GuiKey.MEDIA_INDEP_MOVIE)],
+                [sg.Checkbox(MediaType.MOVIE_SERIES.value, enable_events=True, key=GuiKey.MEDIA_MOVIE_SERIES)],
+                [sg.Checkbox(MediaType.SERIES.value, disabled=True, enable_events=True, key=GuiKey.MEDIA_SERIES)],
+                [sg.Checkbox(MediaType.OTHER.value, enable_events=True, key=GuiKey.MEDIA_OTHER), sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER_INPUT, expand_x=True)],
                 
                 [sg.HorizontalSeparator()],
                 [sg.Text(f"Select the media \"storage location\":", key=GuiKey.LOCATION_TXT)],
-                [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION),
-                sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
+                [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION_COMMON),
+                 sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
                 
                 [sg.HorizontalSeparator()],
                 [sg.Push(), sg.Button("Comfirm", enable_events=True, key=GuiKey.CONFIRM), sg.Push()],
