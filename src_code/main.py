@@ -49,13 +49,10 @@ while True:
     elif event == GuiKey.ARCHIVE_LINK:
         webb.open(LinkAdress.ARCHIVE_SPREADSHEET_LINK.value, 2)
 
-    # If a different media is selected in the media dropdown menu, change the location promt text and hide/unhide the "other" text input box.
+    # If a different media is selected in the media dropdown menu, hide/unhide the "other" text input box.
         #1 If the selected media is "other", unhide the text inputbox.
         #2 If the the selected media is anything else than "other" and the "other" text input is visible, hide it.
     elif event == GuiKey.MEDIA:
-        d.media_type = values[GuiKey.MEDIA]
-        window[GuiKey.LOCATION_TXT].update(f"Select the {d.media_type} \"storage location\":")
-
         if values[GuiKey.MEDIA] == MediaType.OTHER.value: #1
             window[GuiKey.MEDIA_OTHER].update(visible=True)
 
