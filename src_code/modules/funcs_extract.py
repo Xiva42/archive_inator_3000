@@ -32,7 +32,7 @@ def extract_runtime(src:dict) -> None:
     # Extracts and appends relevant super_genres to output.
 def extract_super_genres(src:dict) -> None:
     # This list contains all the super_genres that will be added to the output list.
-    final_super_genres = []
+    final_super_genres = []    
     for interest_dict in src[DataKey.INTERESTS.value]:
         interest_name = interest_dict["name"]
 
