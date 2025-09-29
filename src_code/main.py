@@ -49,18 +49,15 @@ while True:
     elif event == GuiKey.ARCHIVE_LINK:
         webb.open(LinkAdress.ARCHIVE_SPREADSHEET_LINK.value, 2)
 
-    # This section makes sure that the SERIES and MOVIE box cant be checked simultaneously with eachother.
-    elif event == GuiKey.MEDIA_INDEP_MOVIE:
-        gui.checkbox_availability(window, values, GuiKey.MEDIA_INDEP_MOVIE, GuiKey.MEDIA_SERIES)
-    elif event == GuiKey.MEDIA_SERIES:
-        gui.checkbox_availability(window, values, GuiKey.MEDIA_SERIES, GuiKey.MEDIA_INDEP_MOVIE)
+    # If a different media is selected in the media dropdown menu, hide/unhide the "other" text input box.
+        #1 If the selected media is "other", unhide the text inputbox.
+        #2 If the the selected media is anything else than "other" and the "other" text input is visible, hide it.
+    elif event == GuiKey.MEDIA_COMMON:
+        if values[GuiKey.MEDIA_COMMON] == MediaType.OTHER.value: #1
+            window[GuiKey.MEDIA_OTHER].update(visible=True)
 
-    # If the MEDIA_OTHER checkbox is changed, and it's value is True (checked), unhide the text inputbox. else just hide the text inputbox.
-    elif event == GuiKey.MEDIA_OTHER:
-        if values[GuiKey.MEDIA_OTHER]:
-            window[GuiKey.MEDIA_OTHER_INPUT].update(visible=True)
-        else:
-            window[GuiKey.MEDIA_OTHER_INPUT].update(visible=False)
+        elif window[GuiKey.MEDIA_OTHER].visible: #2
+            window[GuiKey.MEDIA_OTHER].update(visible=False)
 
     # If a different location is selected in the location dropdown menu, hide/unhide the "other" text input box.
         #1 If the selected location is "other", unhide the text inputbox.
@@ -99,11 +96,8 @@ while True:
 
                 ######################################## >2< Data extraction and formatting #####################################
                 # This inserts the user given "media" into the data_dict.
-                data_dict[DataKey.MEDIA] = {GuiKey.MEDIA_INDEP_MOVIE: values[GuiKey.MEDIA_INDEP_MOVIE],
-                                            GuiKey.MEDIA_MOVIE_SERIES: values[GuiKey.MEDIA_MOVIE_SERIES],
-                                            GuiKey.MEDIA_SERIES: values[GuiKey.MEDIA_SERIES],
-                                            GuiKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER],
-                                            GuiKey.MEDIA_OTHER_INPUT: values[GuiKey.MEDIA_OTHER_INPUT]
+                data_dict[DataKey.MEDIA] = {GuiKey.MEDIA_COMMON: values[GuiKey.MEDIA_COMMON],
+                                            GuiKey.MEDIA_OTHER: values[GuiKey.MEDIA_OTHER]
                                            }
                 # This inserts the user given "location" for the media into the data_dict.
                 data_dict[DataKey.LOCATION] = {GuiKey.LOCATION_COMMON: values[GuiKey.LOCATION_COMMON],

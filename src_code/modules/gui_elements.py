@@ -55,13 +55,11 @@ window_layout = [
 
                 [sg.HorizontalSeparator()],
                 [sg.Text("Select the media:")],
-                [sg.Checkbox(MediaType.INDEP_MOVIE.value, default=True, enable_events=True, key=GuiKey.MEDIA_INDEP_MOVIE)],
-                [sg.Checkbox(MediaType.MOVIE_SERIES.value, enable_events=True, key=GuiKey.MEDIA_MOVIE_SERIES)],
-                [sg.Checkbox(MediaType.SERIES.value, disabled=True, enable_events=True, key=GuiKey.MEDIA_SERIES)],
-                [sg.Checkbox(MediaType.OTHER.value, enable_events=True, key=GuiKey.MEDIA_OTHER), sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER_INPUT, expand_x=True)],
-                
+                [sg.Combo([MediaType.MOVIE.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA_COMMON),
+                 sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
+
                 [sg.HorizontalSeparator()],
-                [sg.Text(f"Select the media \"storage location\":", key=GuiKey.LOCATION_TXT)],
+                [sg.Text(f"Select the media \"storage location\":")],
                 [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION_COMMON),
                  sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
                 
