@@ -24,8 +24,7 @@ class Location(Enum):
 
 # The Different media types possible.
 class MediaType(Enum):
-    INDEP_MOVIE  = "Indep. Movie"
-    MOVIE_SERIES = "Movie-Series"
+    MOVIE        = "Movie"
     SERIES       = "Series"
     OTHER        = "Other"
 
@@ -48,27 +47,24 @@ class GuiKey(Enum):
     HTTP_ERROR_MSG = 2
     HTTP_ERROR_TYPE_MSG = 3
 
-    MEDIA_INDEP_MOVIE   = MediaType.INDEP_MOVIE.value
-    MEDIA_MOVIE_SERIES  = MediaType.MOVIE_SERIES.value
-    MEDIA_SERIES        = MediaType.SERIES.value
-    MEDIA_OTHER         = MediaType.OTHER.value
-    MEDIA_OTHER_INPUT   = 8
+    MEDIA_INDEP_MOVIE = 6
+    MEDIA_COMMON        = 4
+    MEDIA_OTHER         = 5
 
-    LOCATION_TXT        = 9
-    LOCATION_COMMON     = 10
-    LOCATION_OTHER      = 11
+    LOCATION_COMMON     = 7
+    LOCATION_OTHER      = 8
 
-    CONFIRM             = 12
+    CONFIRM             = 9
 
-    GENERAL_ERROR_MSG   = 13
+    GENERAL_ERROR_MSG   = 10
 
-    SUCCESS_FRAME       = 14
-    SUBJECT_MEDIA       = 15
-    ARCHIVE_SIZE        = 16
-    ARCHIVE_LINK        = 17
+    SUCCESS_FRAME       = 11
+    SUBJECT_MEDIA       = 12
+    ARCHIVE_SIZE        = 13
+    ARCHIVE_LINK        = 14
 
     # Extra Keys.
-    ENTER_KEY           = 18
+    ENTER_KEY           = 15
 
 
 # This contains the dictionary keys for the relevant data sections from the requested data_dict. (including self inserted keys.)
@@ -83,4 +79,4 @@ class DataKey(Enum):
         # For the location.
     LOCATION =  0
         # For the Media Type.
-    MEDIA = 3
+    MEDIA = 1

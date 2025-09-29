@@ -49,6 +49,15 @@ def extract_super_genres(src:dict) -> None:
     d.output.append(genre_str)
 
 
+    # Extracts and appends the media it is in.
+        #1 If the selected media is other, it takes the other_type value instead.
+def extract_media(src:dict) -> None:
+    media = src[DataKey.MEDIA][GuiKey.MEDIA_COMMON]
+    if media == MediaType.OTHER.value: #1
+        media = src[DataKey.MEDIA][GuiKey.MEDIA_OTHER]
+    d.output.append(media)
+
+
     # Extracts and appends the chosen location of the movie.
         #1 if the selected location was other, it takes the other_location value instead.
 def extract_location(src:dict) -> None:
@@ -56,25 +65,6 @@ def extract_location(src:dict) -> None:
     if loc == Location.OTHER.value: #1
         loc = src[DataKey.LOCATION][GuiKey.LOCATION_OTHER]
     d.output.append(loc)
-
-
-    # Extracts and appends the media it is in.
-def extract_media(src:dict) -> None:
-    final_media_list = []
-    media_dict:dict[GuiKey, bool] = src[DataKey.MEDIA]
-    
-    # this iterates through the medias in the media_dict and checks if it's value is True (which means the corresponding checkbox was checked).
-    for media in media_dict:
-        if media_dict[media]:
-            final_media_list.append(media.value)
-
-    # this checks if the last item in teh final_media_list is the GuiKey.MEDIA_OTHER (it will always be last if it there) and replaces it with the MEDIA_OTHER_INPUTbox text.
-    if final_media_list[-1] == GuiKey.MEDIA_OTHER.value:
-        final_media_list[-1] = media_dict[GuiKey.MEDIA_OTHER_INPUT]
-            
-    # This formats and appends the list of super_genres to the output list.
-    media_str = ", ".join(final_media_list)
-    d.output.append(media_str)
 
 
     # Extracts and appends the link for this movies imdb site.
