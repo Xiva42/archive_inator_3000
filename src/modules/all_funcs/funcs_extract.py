@@ -4,8 +4,8 @@ from enum import Enum
 from functools import partial
 
 #################################################### Module Imports #############################################################
-from modules import data_fields as d
-from modules.enums import LinkAdress, DataKey, Location, MediaType, GuiKey
+from .. import data_fields as d
+from ..enums import LinkAdress, DataKey, Location, MediaType, GuiKey
 
 
 #################################################################################################################################

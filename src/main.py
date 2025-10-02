@@ -9,15 +9,13 @@ import webbrowser as webb
 
 #################################################### Module Imports #############################################################
 # Functions:
-from modules import funcs_extract as f_ext
-from modules import funcs_http as f_htt
-from modules import funcs_sheets_comm as f_shc
-# Enums for constants:
-from modules.enums import GuiKey, Location, MediaType, DataKey, LinkAdress
+from modules import all_funcs as f
 # Variables, lists, and dictionaries:
 from modules import data_fields as d
 # window layout and theme configurations for the GUI:
 from modules import gui_elements as gui
+# Enums for constants:
+from modules.enums import GuiKey, Location, MediaType, DataKey, LinkAdress
 
 
 #################################################################################################################################
@@ -27,7 +25,7 @@ from modules import gui_elements as gui
 h = hlib.Http(".cache")
 
 # This connects to the google spreadsheet which is the archive inators storage.
-archive_spreadsheet = f_shc.connect_to_sheet()
+archive_spreadsheet = f.sheet.connect_to_sheet()
 
 #Initates the window with the gui_layout list.
 window = sg.Window("The Archive Inator 3000", gui.window_layout, keep_on_top=True, finalize=True)
@@ -80,7 +78,7 @@ while True:
                 ######################################## >1< HTTP Getter ########################################################
                 # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
                 given_link = values[GuiKey.IMDB_LINK]
-                data = f_htt.http_get_request(h, given_link)
+                data = f.http.http_get_request(h, given_link)
                 
                 # This checks if the data is a string and therefor an error msg and displays it.
                 if type(data) == str:
@@ -105,12 +103,12 @@ while True:
                                               }
         
                 # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
-                for func in f_ext.Extraction:
+                for func in f.ex.Extraction:
                     func.value(data_dict)
 
                 ######################################## >3< Data Export To Sheets Document #####################################
                 # This writes the output data to the connected spreadsheet, and returns the new archive size.
-                archive_size = f_shc.write_to_sheet(archive_spreadsheet, [d.output])
+                archive_size = f.sheet.write_to_sheet(archive_spreadsheet, [d.output])
                 
 
                 ######################################## >4< Success reset ######################################################
