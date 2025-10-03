@@ -2,6 +2,9 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+#################################################### Module Imports ###########################################################
+from ..data_fields import CREDENTIALS_PATH
+
 
 #################################################################################################################################
 #################################################### Sheet Communication Functions ##############################################
@@ -9,7 +12,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 # This is the sheet id for the location where all the movies are to be stored.
 # link: https://docs.google.com/spreadsheets/d/12CpXUYHlsGttUsxaArsBuJx0K_oXVFNgvtWUv_g48Nk
 ARCHIVE_SHEET_ID = "12CpXUYHlsGttUsxaArsBuJx0K_oXVFNgvtWUv_g48Nk"
-CREDENTIALS_PATH = "src/credentials.json"
 ARCHIVE_INATOR_STORAGE_SHEET = "archive_inator_storage"
 
 # This is the needed scopes to access the you google sheets accounts.
@@ -35,9 +37,9 @@ def write_to_sheet(sheet_obj:gspread.Spreadsheet, data:list[list[any]], workshee
 
         # Reads the amount of rows and makes the correct index.
     row_count = len(archive_sheet.col_values(1))
-    print(row_count)
     data_insertion_row = "A" + str(row_count+1)
 
+    print("sheets - [SENDING DATA]")
         # Updates the next row with the given data.
     archive_sheet.update(data, data_insertion_row)
     print("sheets - [DATA SENT]")

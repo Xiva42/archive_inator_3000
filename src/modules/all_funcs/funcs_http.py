@@ -22,8 +22,10 @@ def http_get_request(http:hlib.Http, link:str) -> dict | str:
     id = link[id_start:id_end]
     link = LinkAdress.ROOT_IMDB_API_TITLE.value + id
 
+    print("IMDb http - [REQUESTING IMDB DATA]")
     # This makes the http request and gets the data as json
     (resp, content) = http.request(link, "GET")
+    print(f"IMDb http - [RESPONSE RECIVED] - status: {resp["status"]}")
     # If the response status is not 200 (which means successful) it returns only the status.
     if resp["status"] != "200":
         error = f"HTTP status {resp["status"]}"

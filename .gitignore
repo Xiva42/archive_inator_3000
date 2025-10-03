@@ -36,4 +36,4 @@ $RECYCLE.BIN/
 **/__pycache__
 
 #The GoogleAPI credentials
-*/credentials.json
+**/credentials.json

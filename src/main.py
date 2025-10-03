@@ -6,6 +6,7 @@
 import httplib2 as hlib
 import FreeSimpleGUI as sg
 import webbrowser as webb
+import base64
 
 #################################################### Module Imports #############################################################
 # Functions:
@@ -27,18 +28,22 @@ h = hlib.Http(".cache")
 # This connects to the google spreadsheet which is the archive inators storage.
 archive_spreadsheet = f.sheet.connect_to_sheet()
 
+# imports the icon as base64.
+with open(d.APPLICATION_ICON_PATH, "rb") as icon_file:
+    icon_b64_data = base64.b64encode(icon_file.read())
+
 #Initates the window with the gui_layout list.
-window = sg.Window("The Archive Inator 3000", gui.window_layout, keep_on_top=True, finalize=True)
+window = sg.Window(d.APPLICATION_NAME,  gui.window_layout, icon=icon_b64_data, keep_on_top=True, finalize=True)
 # Enables the enter key to act as a "confirm" button.
 window.bind("<Return>", GuiKey.ENTER_KEY)
 
 # The main application loop which reads events and inputs into the GUI and makes operations with the input.
 while True:
     event, values = window.read()
-    print(event, values)
+    print(f"[TRIG EVENT]    : {event}\n[PASSED VALUES] : {values}\n")
     # If the window is closed, break out of the loop.
     if event == sg.WIN_CLOSED:
-        break
+        break   
 
     # If the xiva text is pressed, open the XIVA_WEBSITE_LINK.
     elif event == GuiKey.XIVA_LINK:
@@ -73,7 +78,7 @@ while True:
         #3 Connect to the google spreadsheet and write it to the first empty row.
         #4 Reset the application so it is ready for the next promt.
     elif event == GuiKey.CONFIRM or event == GuiKey.ENTER_KEY:
-        # try:
+        try:
             for super_genre in range(1):
                 ######################################## >1< HTTP Getter ########################################################
                 # This makes the request to a imdb api that allows us to GET data with the user given imdb ID.
@@ -83,7 +88,6 @@ while True:
                 # This checks if the data is a string and therefor an error msg and displays it.
                 if type(data) == str:
                     error = f"Error Type: {data}"
-                    print(error)
                     window[GuiKey.HTTP_ERROR_MSG].update(visible=True)
                     window[GuiKey.HTTP_ERROR_TYPE_MSG].update(visible=True)
                     window[GuiKey.HTTP_ERROR_TYPE_MSG].update(value=error)
@@ -131,10 +135,9 @@ while True:
                     d.already_added_super_genre[super_genre] = False
         
         # # If the link given didnt work or wasn't a link this makes sure the program doesn't crash.
-        # except Exception as e:
-        #     error = f"An error occurred: {e}"
-        #     print(error)
-        #     window[GuiKey.GENERAL_ERROR_MSG].update(visible=True)
-        #     window[GuiKey.GENERAL_ERROR_MSG].update(value=error)
+        except Exception as e:
+            error = f"An error occurred: {e}"
+            window[GuiKey.GENERAL_ERROR_MSG].update(visible=True)
+            window[GuiKey.GENERAL_ERROR_MSG].update(value=error)
 
 window.close()
