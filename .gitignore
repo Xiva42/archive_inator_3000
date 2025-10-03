@@ -30,10 +30,10 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows
 
 # The HTTP getters cache.
-.cache
+**/.cache
 
 # The local module import cache.
-__pycache__
+**/__pycache__
 
 #The GoogleAPI credentials
-credentials.json
+*/credentials.json

@@ -1,0 +1,20 @@
+[project]
+name = "Archive_Inator_3000-Xiva"
+version = "0.0.1"
+authors = [
+  { name="Marcus Dalentoft", email="marcus.dalentoft@gmail.com" },
+]
+
+description = "A small program to insert movie data extracted from an IMDb link into google sheets speadsheet"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E.md"]
+
+[project.urls]
+Homepage = "https://github.com/Xiva42/archive_inator_3000"
+Issues = "https://github.com/Xiva42/archive_inator_3000/issues"
