@@ -1,7 +1,7 @@
 # In this application there is a lot of genre chaos... so to set things straight:
     # super_genre   ->  The genres format wanted and is to be used in the google sheets document.
     # sub_genre     ->  The genres that IMDb have, these will all have a relative super_genres which it will translated to.
-    # interest      ->  The genres the application recives with the given movie (thats what they are called in the HTTP response).
+    # interest      ->  The genres the application recives with the given media (thats what they are called in the HTTP response).
 #################################################### Standard Imports ###########################################################
 import httplib2 as hlib
 import FreeSimpleGUI as sg
@@ -48,7 +48,7 @@ while True:
     # If the xiva text is pressed, open the XIVA_WEBSITE_LINK.
     elif event == GuiKey.XIVA_LINK:
         webb.open(LinkAdress.XIVA_WEBSITE_LINK.value, 2)
-    # If the "Movie Archive" text in the success message is pressed open the Archive Spreadsheet.
+    # If the "Media Archive" text in the success message is pressed open the Archive Spreadsheet.
     elif event == GuiKey.ARCHIVE_LINK:
         webb.open(LinkAdress.ARCHIVE_SPREADSHEET_LINK.value, 2)
 
@@ -122,7 +122,7 @@ while True:
                 window[GuiKey.GENERAL_ERROR_MSG].update(visible=False)
                 # Removes the link from the input box.
                 window[GuiKey.IMDB_LINK].update(value="")
-                # Shows the retrieved Movie's name in the success_frame.
+                # Shows the retrieved media's name in the success_frame.
                 window[GuiKey.SUBJECT_MEDIA].update(value=d.output[0])
                 # Shows the current amount of archived media in the archive spreadsheet.
                 window[GuiKey.ARCHIVE_SIZE].update(value=str(archive_size))

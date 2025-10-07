@@ -39,7 +39,7 @@ intro_column_layout = [
     # This defines what the success frame contains and is called in the window_layout.
 success_frame_layout = [
                 [sg.Text("The wanted data on:", text_color=GuiColor.LIGHT_GREEN.value, ), sg.Text("", text_color=GuiColor.GOLD.value, key=GuiKey.SUBJECT_MEDIA,)],
-                [sg.Text("Is now in:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("The Movie Archive", font=("Helvetica", "10", "underline"), enable_events=True, tooltip="Link to \"The Movie Archive\" Google Sheets", text_color=GuiColor.LIGHT_BLUE.value, key=GuiKey.ARCHIVE_LINK)],
+                [sg.Text("Is now in:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("The Media Archive", font=("Helvetica", "10", "underline"), enable_events=True, tooltip="Link to \"The Movie Archive\" Google Sheets", text_color=GuiColor.LIGHT_BLUE.value, key=GuiKey.ARCHIVE_LINK)],
                 [sg.Text("With a total of:", text_color=GuiColor.LIGHT_GREEN.value), sg.Text("", text_color=GuiColor.GOLD.value, key=GuiKey.ARCHIVE_SIZE,), sg.Text("archived media", text_color=GuiColor.LIGHT_GREEN.value)],
                 [sg.Text("You can repeat the process if needed :)")]
                        ]
@@ -55,7 +55,7 @@ window_layout = [
 
                 [sg.HorizontalSeparator()],
                 [sg.Text("Select the media:")],
-                [sg.Combo([MediaType.MOVIE.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA_COMMON),
+                [sg.Combo([MediaType.MOVIE.value, MediaType.ANIMATION.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA_COMMON),
                  sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
 
                 [sg.HorizontalSeparator()],

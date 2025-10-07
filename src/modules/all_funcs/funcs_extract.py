@@ -24,7 +24,7 @@ def extract_runtime(src:dict) -> None:
     hours = int(flr(minutes/60))
     extra_minutes = minutes - hours*60
 
-    # Concatenates the hours and minutes with letters in between and appends the movie length to output.
+    # Concatenates the hours and minutes with letters in between and appends the media length to output.
     lenght_str = str(hours) + "h " + str(extra_minutes) + "m"
     d.output.append(lenght_str)
 
@@ -58,7 +58,7 @@ def extract_media(src:dict) -> None:
     d.output.append(media)
 
 
-    # Extracts and appends the chosen location of the movie.
+    # Extracts and appends the chosen location of the media.
         #1 if the selected location was other, it takes the other_location value instead.
 def extract_location(src:dict) -> None:
     loc = src[DataKey.LOCATION][GuiKey.LOCATION_COMMON]
@@ -67,10 +67,10 @@ def extract_location(src:dict) -> None:
     d.output.append(loc)
 
 
-    # Extracts and appends the link for this movies imdb site.
+    # Extracts and appends the link for this media's imdb site.
 def extract_link(src:dict) -> None:
-    movie_id = src["id"]
-    imdb_link = LinkAdress.ROOT_IMDB_MOVIES.value + movie_id
+    media_id = src["id"]
+    imdb_link = LinkAdress.ROOT_IMDB_MEDIAS.value + media_id
     d.output.append(imdb_link)
 
 #################################################### Sub Functions ##############################################################

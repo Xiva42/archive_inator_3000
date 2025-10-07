@@ -8,7 +8,7 @@ from enum import Enum
 # Different web addresses.
 class LinkAdress(Enum):
     # Root web addresses
-    ROOT_IMDB_MOVIES     = "https://www.imdb.com/title/"
+    ROOT_IMDB_MEDIAS     = "https://www.imdb.com/title/"
     ROOT_IMDB_API_TITLE  = "https://api.imdbapi.dev/titles/"
 
     # Other link adresses
@@ -25,6 +25,7 @@ class Location(Enum):
 # The Different media types possible.
 class MediaType(Enum):
     MOVIE        = "Movie"
+    ANIMATION    = "Animation"
     SERIES       = "Series"
     OTHER        = "Other"
 
@@ -47,7 +48,6 @@ class GuiKey(Enum):
     HTTP_ERROR_MSG = 2
     HTTP_ERROR_TYPE_MSG = 3
 
-    MEDIA_INDEP_MOVIE = 6
     MEDIA_COMMON        = 4
     MEDIA_OTHER         = 5
 
