@@ -2,6 +2,11 @@
     # super_genre   ->  The genres format wanted and is to be used in the google sheets document.
     # sub_genre     ->  The genres that IMDb have, these will all have a relative super_genres which it will translated to.
     # interest      ->  The genres the application recives with the given media (thats what they are called in the HTTP response).
+
+#Export file:
+    #Remove the prior .exe file from the "portable_archive_app" folder.
+    #Run cmd in console: pyinstaller --onefile "src/main.py" -n "Archive Inator 3000" --icon=assets/archive_brazil_icon.png
+    #Move the .exe file into the "portable_archive_app" folder.
 #################################################### Standard Imports ###########################################################
 import httplib2 as hlib
 import FreeSimpleGUI as sg
@@ -112,7 +117,7 @@ while True:
 
                 ######################################## >3< Data Export To Sheets Document #####################################
                 # This writes the output data to the connected spreadsheet, and returns the new archive size.
-                archive_size = f.sheet.write_to_sheet(archive_spreadsheet, [d.output])
+                archive_size = f.sheet.write_to_sheet(archive_spreadsheet, d.output)
                 
 
                 ######################################## >4< Success reset ######################################################
