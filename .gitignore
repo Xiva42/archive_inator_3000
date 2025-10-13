@@ -35,5 +35,8 @@ $RECYCLE.BIN/
 # The local module import cache.
 **/__pycache__
 
+# vitual environment folder
+**/venv
+
 #The GoogleAPI credentials
 **/credentials.json

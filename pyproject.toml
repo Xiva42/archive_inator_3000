@@ -14,6 +14,7 @@ classifiers = [
 license = "MIT"
 license-files = ["LICEN[CS]E.md"]
 
+
 dependencies = [
   "httplib2==0.31.0",
   "FreeSimpleGUI==5.2.0",
@@ -21,14 +22,6 @@ dependencies = [
   "oauth2client==4.1.3"
 ]
 
-
 [project.urls]
 Homepage = "https://github.com/Xiva42/archive_inator_3000"
 Issues = "https://github.com/Xiva42/archive_inator_3000/issues"
-
-
-[tool.pycrucible]
-entry = "src/main.py"
-
-[tool.pycrucible.options]
-debug = true
