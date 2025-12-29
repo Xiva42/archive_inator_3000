@@ -6,8 +6,7 @@ import os.path
 #################################################################################################################################
 APPLICATION_NAME = "Archive Inator 3000"
 APPLICATION_ICON_PATH = os.path.join(os.getcwd(), "assets/archive_brazil_icon.png")
-CREDENTIALS_PATH = os.path.join(os.getcwd(), "credentials.json")
-
+CREDENTIALS_PATH = os.path.join(os.getcwd(), "../_creds_n_keys/archive_inator_3000/credentials.json")
 
 #################################################################################################################################
 #################################################### Lists ######################################################################

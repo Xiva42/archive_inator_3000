@@ -110,7 +110,11 @@ while True:
                 data_dict[DataKey.LOCATION] = {GuiKey.LOCATION_COMMON: values[GuiKey.LOCATION_COMMON],
                                                GuiKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]
                                               }
-        
+                # This inserts the user given "owner" for the media into the data_dict.
+                data_dict[DataKey.OWNER] = {GuiKey.OWNER_COMMON: values[GuiKey.OWNER_COMMON],
+                                            GuiKey.OWNER_OTHER: values[GuiKey.OWNER_OTHER]
+                                           }
+
                 # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
                 for func in f.ex.Extraction:
                     func.value(data_dict)

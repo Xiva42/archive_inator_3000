@@ -16,7 +16,7 @@ ARCHIVE_INATOR_STORAGE_SHEET = "archive_inator_storage"
 
 
 # This is the needed scopes to access the you google sheets accounts.
-scope = ["https://spreadsheets.google.com/feeds","https://www.googleapis.com/auth/drive"]
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 # This function connects to the spreadsheet with the given ARCHIVE_SHEET_ID and credentials. it then returns the spreadsheet object. 
 def connect_to_sheet(spreadsheet_id:str = ARCHIVE_SHEET_ID) -> gspread.Spreadsheet:

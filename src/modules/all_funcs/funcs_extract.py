@@ -67,6 +67,8 @@ def extract_location(src:dict) -> None:
     d.output.append(loc)
 
 
+
+
     # Extracts and appends the link for this media's imdb site.
 def extract_link(src:dict) -> None:
     media_id = src["id"]

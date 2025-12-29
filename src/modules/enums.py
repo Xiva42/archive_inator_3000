@@ -29,6 +29,12 @@ class MediaType(Enum):
     SERIES       = "Series"
     OTHER        = "Other"
 
+# The different owner possibilities.
+class Owner(Enum):
+    DALENTOFT_CASA = "Dalentoft Casa"
+    SINQULARITY_LAIR = "Sinqularity Lair"
+    OTHER = "Other"
+
 # All color related constants for the GUI.
 class GuiColor(Enum):
     # Theme
@@ -54,17 +60,20 @@ class GuiKey(Enum):
     LOCATION_COMMON     = 7
     LOCATION_OTHER      = 8
 
-    CONFIRM             = 9
+    OWNER_COMMON        = 9
+    OWNER_OTHER         = 10
 
-    GENERAL_ERROR_MSG   = 10
+    CONFIRM             = 11
 
-    SUCCESS_FRAME       = 11
-    SUBJECT_MEDIA       = 12
-    ARCHIVE_SIZE        = 13
-    ARCHIVE_LINK        = 14
+    GENERAL_ERROR_MSG   = 12
+
+    SUCCESS_FRAME       = 13
+    SUBJECT_MEDIA       = 14
+    ARCHIVE_SIZE        = 15
+    ARCHIVE_LINK        = 16
 
     # Extra Keys.
-    ENTER_KEY           = 15
+    ENTER_KEY           = 17
 
 
 # This contains the dictionary keys for the relevant data sections from the requested data_dict. (including self inserted keys.)
@@ -80,3 +89,5 @@ class DataKey(Enum):
     LOCATION =  0
         # For the Media Type.
     MEDIA = 1
+        # For the Owner.
+    OWNER = 2
