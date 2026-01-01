@@ -37,3 +37,6 @@ $RECYCLE.BIN/
 
 # vitual environment folder
 **/env
+
+# makes sure credentials is NOT commited.
+**/credentials.json
