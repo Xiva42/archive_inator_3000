@@ -2,7 +2,7 @@
 import FreeSimpleGUI as sg
 
 #################################################### Module Imports #############################################################
-from .enums import GuiColor, GuiKey, Location, MediaType
+from .enums import GuiColor, Owner, GuiKey, Location, MediaType
 
 #################################################################################################################################
 #################################################### GUI Functions ##############################################################
@@ -62,6 +62,11 @@ window_layout = [
                 [sg.Text(f"Select the media \"storage location\":")],
                 [sg.Combo([Location.DVD.value, Location.BLU_RAY.value, Location.SERVER.value, Location.OTHER.value], default_value=Location.DVD.value, readonly=True, enable_events=True, key=GuiKey.LOCATION_COMMON),
                  sg.Input("", size=(15,1), visible=False, key=GuiKey.LOCATION_OTHER, expand_x=True)],
+                
+                [sg.HorizontalSeparator()],
+                [sg.Text(f"Select the media \"owner\":")],
+                [sg.Combo([Owner.DALENTOFT_CASA.value, Owner.SINQULARITY_LAIR.value, Owner.OTHER.value], default_value=Owner.DALENTOFT_CASA.value, readonly=True, enable_events=True, key=GuiKey.OWNER_COMMON),
+                 sg.Input("", size=(15,1), visible=False, key=GuiKey.OWNER_OTHER, expand_x=True)],
                 
                 [sg.HorizontalSeparator()],
                 [sg.Push(), sg.Button("Comfirm", enable_events=True, key=GuiKey.CONFIRM), sg.Push()],

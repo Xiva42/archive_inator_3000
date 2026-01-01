@@ -5,7 +5,7 @@
 
 #Export file:python
     #Remove the prior .exe file from the "portable_archive_app" folder.
-    #Run cmd in console: pyinstaller --onefile "src/main.py" -n "Archive Inator 3000" --icon=assets/archive_brazil_icon.png
+    #Run cmd in console: pyinstaller --onefile src/main.py -n "Archive Inator 3000" --icon=assets/archive_brazil_icon.png
     #Move the .exe file into the "portable_archive_app" folder.
 #################################################### Standard Imports ###########################################################
 import httplib2 as hlib
@@ -21,8 +21,7 @@ from modules import data_fields as d
 # window layout and theme configurations for the GUI:
 from modules import gui_elements as gui
 # Enums for constants:
-from modules.enums import GuiKey, Location, MediaType, DataKey, LinkAdress
-
+from modules.enums import GuiKey, Owner, Location, MediaType, DataKey, LinkAdress
 
 #################################################################################################################################
 #################################################### Application Loop ###########################################################
@@ -77,6 +76,16 @@ while True:
         elif window[GuiKey.LOCATION_OTHER].visible: #2
             window[GuiKey.LOCATION_OTHER].update(visible=False)            
 
+    # If a different owner is selected in the owner dropdown menu, hide/unhide the "other" text input box.
+        #1 If the selected owner is "other", unhide the text inputbox.
+        #2 If the the selected owner is anything else than "other" and the "other" text input is visible, hide it.   
+    elif event == GuiKey.OWNER_COMMON:
+        if values[GuiKey.OWNER_COMMON] == Owner.OTHER.value: #1
+            window[GuiKey.OWNER_OTHER].update(visible=True)
+
+        elif window[GuiKey.OWNER_COMMON].visible: #2
+            window[GuiKey.OWNER_OTHER].update(visible=False)            
+
     # If the confirm button or the enter key is pressed:
         #1 Initiate the HTTP data getter.
         #2 Extract the wanted data.
@@ -110,15 +119,17 @@ while True:
                 data_dict[DataKey.LOCATION] = {GuiKey.LOCATION_COMMON: values[GuiKey.LOCATION_COMMON],
                                                GuiKey.LOCATION_OTHER: values[GuiKey.LOCATION_OTHER]
                                               }
+                 
                 # This inserts the user given "owner" for the media into the data_dict.
                 data_dict[DataKey.OWNER] = {GuiKey.OWNER_COMMON: values[GuiKey.OWNER_COMMON],
                                             GuiKey.OWNER_OTHER: values[GuiKey.OWNER_OTHER]
                                            }
 
                 # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
-                for func in f.ex.Extraction:
-                    func.value(data_dict)
-
+                for func in f.ex.extraction_functions:
+                    print("function to be run: ", func)
+                    func(data_dict)
+                print(d.output)
                 ######################################## >3< Data Export To Sheets Document #####################################
                 # This writes the output data to the connected spreadsheet, and returns the new archive size.
                 archive_size = f.sheet.write_to_sheet(archive_spreadsheet, d.output)

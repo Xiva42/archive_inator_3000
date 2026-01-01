@@ -5,7 +5,7 @@ from functools import partial
 
 #################################################### Module Imports #############################################################
 from .. import data_fields as d
-from ..enums import LinkAdress, DataKey, Location, MediaType, GuiKey
+from ..enums import LinkAdress, DataKey, Owner, Location, MediaType, GuiKey
 
 
 #################################################################################################################################
@@ -67,13 +67,21 @@ def extract_location(src:dict) -> None:
     d.output.append(loc)
 
 
-
-
     # Extracts and appends the link for this media's imdb site.
 def extract_link(src:dict) -> None:
     media_id = src["id"]
     imdb_link = LinkAdress.ROOT_IMDB_MEDIAS.value + media_id
     d.output.append(imdb_link)
+
+
+    # Extracts and appends the chosen owner of the media.
+        #1 if the selected owner was other, it takes the other_owner value instead.
+def extract_owner(src:dict) -> None:
+    owner = src[DataKey.OWNER][GuiKey.OWNER_COMMON]
+    if owner == Owner.OTHER.value:
+        owner = src[DataKey.OWNER][GuiKey.OWNER_OTHER]
+    d.output.append(owner)
+
 
 #################################################### Sub Functions ##############################################################
 # This function finds the super_genre that corrosponds with the given interest and returns it.
@@ -102,12 +110,14 @@ def find_reletive_super_genre(interest:str) -> str | None:
     # If there this interest did not fit into a new super_genre it returns None.
     return None
                 
-#################################################### Function Related Enum ######################################################
-# This contains the order of data in the output as keys and the relative extract function as the value.
-class Extraction(Enum):
-    TITLE        = partial(extract_title)
-    RUNTIME      = partial(extract_runtime)
-    SUPER_GENRES = partial(extract_super_genres)
-    LOCATION     = partial(extract_location)
-    MEDIA        = partial(extract_media)
-    IMDB_LINK    = partial(extract_link)
+#################################################### Extraction Order And Function Reference List ###############################
+# This contains references to the extraction functions. They will be inserted into the sheets in the listed order.
+extraction_functions: list[function] = [
+    extract_title,
+    extract_runtime,
+    extract_super_genres,
+    extract_location,
+    extract_media,
+    extract_link,
+    extract_owner
+]

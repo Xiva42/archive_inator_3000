@@ -33,28 +33,31 @@ def connect_to_sheet(spreadsheet_id:str = ARCHIVE_SHEET_ID) -> gspread.Spreadshe
 
 # This function reads the number of rows in the given sheet_obj and selected worksheet and writes the given data(with some other sheet specific at the end) in the next empty row.
 def write_to_sheet(sheet_obj:gspread.Spreadsheet, data:list[any], worksheet_name:str = ARCHIVE_INATOR_STORAGE_SHEET) -> int:
-    """Returns the current amount of media entries in the archive inator storage."""
+    """This writes the given list of data into the next empty row in the given goog sheets.
+    It also returns the current amount of media entries in the archive inator storage."""
     archive_sheet = sheet_obj.worksheet(worksheet_name)
     
         # Reads the amount of rows and makes the correct index.
     row_count = len(archive_sheet.col_values(1))
     row_number = row_count+1
     data_insertion_row = "A" + str(row_number)
+    
+    tail_start_column = len(data)+2
 
         # The sheet filter function that will be put at the end of the data list so it appears in the sheets AND all in the "Filtered Data" section.
     archive_sheet_filter_function_tail = ["","",
-                                          f"=IF($I$1=\"\";\"\";IF(REGEXMATCH($C{row_number};$I$1);\"CONTAINS\";\"\"))",
-                                          f"=IF($J$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};$J$1);I{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
-                                          f"=IF($K$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};$K$1);J{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
-                                          f"=IF($L$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};$L$1);K{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
+                                          f"=IF(${numToSheetChar(tail_start_column+1)}$1=\"\";\"\";IF(REGEXMATCH($C{row_number};${numToSheetChar(tail_start_column+1)}$1);\"CONTAINS\";\"\"))",
+                                          f"=IF(${numToSheetChar(tail_start_column+2)}$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};${numToSheetChar(tail_start_column+2)}$1);{numToSheetChar(tail_start_column+1)}{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
+                                          f"=IF(${numToSheetChar(tail_start_column+3)}$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};${numToSheetChar(tail_start_column+3)}$1);{numToSheetChar(tail_start_column+2)}{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
+                                          f"=IF(${numToSheetChar(tail_start_column+4)}$1=\"\";\"\";IF(AND(REGEXMATCH($C{row_number};${numToSheetChar(tail_start_column+4)}$1);{numToSheetChar(tail_start_column+3)}{row_number}=\"CONTAINS\");\"CONTAINS\";\"\"))",
                                           "",
-                                          f"=IF($I$1=\"\";;IF($J$1=\"\";IF($I{row_number}=\"\";;\"X\");IF($K$1=\"\";IF($J{row_number}=\"\";;\"X\");IF($L$1=\"\";IF($K{row_number}=\"\";;\"X\");IF($L{row_number}=\"\";;\"X\")))))",
-                                          f"=IF($N{row_number}=\"X\";A{row_number};\"\")",
-                                          f"=IF($N{row_number}=\"X\";B{row_number};\"\")",
-                                          f"=IF($N{row_number}=\"X\";C{row_number};\"\")",
-                                          f"=IF($N{row_number}=\"X\";D{row_number};\"\")",
-                                          f"=IF($N{row_number}=\"X\";E{row_number};\"\")",
-                                          f"=IF($N{row_number}=\"X\";F{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+1)}$1=\"\";;IF(${numToSheetChar(tail_start_column+2)}$1=\"\";IF(${numToSheetChar(tail_start_column+1)}{row_number}=\"\";;\"X\");IF(${numToSheetChar(tail_start_column+3)}$1=\"\";IF(${numToSheetChar(tail_start_column+1)}{row_number}=\"\";;\"X\");IF(${numToSheetChar(tail_start_column+4)}$1=\"\";IF(${numToSheetChar(tail_start_column+3)}{row_number}=\"\";;\"X\");IF(${numToSheetChar(tail_start_column+4)}{row_number}=\"\";;\"X\")))))",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";A{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";B{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";C{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";D{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";E{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";F{row_number};\"\")",
                                          ]
         # This appends the filter fuction tail to the data list.
     for i in archive_sheet_filter_function_tail:
@@ -66,3 +69,8 @@ def write_to_sheet(sheet_obj:gspread.Spreadsheet, data:list[any], worksheet_name
     print("sheets - [DATA SENT]")
         # Returns the current amount of media entries in the archive inator storage.
     return row_count
+
+
+# This finds the equevelant letter to the given number (1 = a, 2 = b)
+def numToSheetChar(number: int) -> str:
+    return chr(number + 96).upper()
