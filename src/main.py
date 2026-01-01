@@ -7,6 +7,7 @@
     #Remove the prior .exe file from the "portable_archive_app" folder.
     #Run cmd in console: pyinstaller --onefile src/main.py -n "Archive Inator 3000" --icon=assets/archive_brazil_icon.png
     #Move the .exe file into the "portable_archive_app" folder.
+    #For it to run properly on THIS computer, move the new exe file to the: _Archive_Inator_3000\app folder in documents.
 #################################################### Standard Imports ###########################################################
 import httplib2 as hlib
 import FreeSimpleGUI as sg
