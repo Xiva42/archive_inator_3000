@@ -37,6 +37,3 @@ $RECYCLE.BIN/
 
 # vitual environment folder
 **/env
-
-#The GoogleAPI credentials
-**/credentials.json
