@@ -1,3 +1,0 @@
-here should the credentials for the googlesheets access lie.
-
-Remember to include the creds when you you give the program to someone :)
