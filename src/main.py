@@ -3,7 +3,7 @@
     # sub_genre     ->  The genres that IMDb have, these will all have a relative super_genres which it will translated to.
     # interest      ->  The genres the application recives with the given media (thats what they are called in the HTTP response).
 
-#Export file:python
+#Export new exe file:
     #Remove the prior .exe file from the "portable_archive_app" folder.
     #Run cmd in console: pyinstaller --onefile src/main.py -n "Archive Inator 3000" --icon=assets/archive_brazil_icon.png
     #Move the .exe file into the "portable_archive_app" folder.
@@ -128,9 +128,8 @@ while True:
 
                 # This runs all the extraction functions which extracts the wanted data from the given data_dict and appends it in the given extraction_order.
                 for func in f.ex.extraction_functions:
-                    print("function to be run: ", func)
                     func(data_dict)
-                print(d.output)
+
                 ######################################## >3< Data Export To Sheets Document #####################################
                 # This writes the output data to the connected spreadsheet, and returns the new archive size.
                 archive_size = f.sheet.write_to_sheet(archive_spreadsheet, d.output)
