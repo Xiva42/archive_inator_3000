@@ -55,7 +55,7 @@ window_layout = [
 
                 [sg.HorizontalSeparator()],
                 [sg.Text("Select the media:")],
-                [sg.Combo([MediaType.MOVIE.value, MediaType.ANIMATION.value, MediaType.SERIES.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA_COMMON),
+                [sg.Combo([MediaType.MOVIE.value, MediaType.SERIES.value, MediaType.KIDS.value, MediaType.OTHER.value], default_value=MediaType.MOVIE.value, readonly=True, enable_events=True, key=GuiKey.MEDIA_COMMON),
                  sg.Input("", size=(15,1), visible=False, key=GuiKey.MEDIA_OTHER, expand_x=True)],
 
                 [sg.HorizontalSeparator()],

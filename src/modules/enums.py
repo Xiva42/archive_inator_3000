@@ -24,10 +24,10 @@ class Location(Enum):
 
 # The Different media types possible.
 class MediaType(Enum):
-    MOVIE        = "Movie"
-    ANIMATION    = "Animation"
-    SERIES       = "Series"
-    OTHER        = "Other"
+    MOVIE   = "Movie"
+    SERIES  = "Series"
+    KIDS    = "Kids"
+    OTHER   = "Other"
 
 # The different owner possibilities.
 class Owner(Enum):
