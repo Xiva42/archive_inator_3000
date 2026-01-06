@@ -58,6 +58,7 @@ def write_to_sheet(sheet_obj:gspread.Spreadsheet, data:list[any], worksheet_name
                                           f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";D{row_number};\"\")",
                                           f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";E{row_number};\"\")",
                                           f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";F{row_number};\"\")",
+                                          f"=IF(${numToSheetChar(tail_start_column+6)}{row_number}=\"X\";G{row_number};\"\")",
                                          ]
         # This appends the filter fuction tail to the data list.
     for i in archive_sheet_filter_function_tail:
